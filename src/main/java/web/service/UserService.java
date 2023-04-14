@@ -18,4 +18,6 @@ public interface UserService {
 
     List<Long> getAllIds();
 
+    String getPath(long searchId);
+
 }

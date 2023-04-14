@@ -25,23 +25,10 @@ public class UserController {
 
     @GetMapping("/users")
     public ModelAndView users(
-            @RequestParam(name = "id", required = false, defaultValue = "-1") final int searchId) {
-
+            @RequestParam(name = "id", required = false, defaultValue = "-1") final long searchId) {
         List<User> listUsers = userService.getAllUsers();
-
-        ModelAndView modelAndView = new ModelAndView("users");
-        modelAndView.addObject("listUsers", listUsers);
-        List<Long> allIds = userService.getAllIds();
-        Long hasId = allIds.stream()
-                .filter(x -> x == searchId)
-                .findFirst()
-                .orElse(null);
-
-        if (hasId != null && (searchId > 0)) {
-            return new ModelAndView("redirect:/users/" + searchId)
-                    .addObject("listUsers", listUsers);
-        }
-        return modelAndView;
+        return new ModelAndView(userService.getPath(searchId))
+                .addObject("listUsers", listUsers);
     }
 
     @PostMapping("/users")

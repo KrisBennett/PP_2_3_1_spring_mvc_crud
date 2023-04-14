@@ -9,9 +9,12 @@ import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
+    private final UserDao userDao;
 
     @Autowired
-    private UserDao userDao;
+    public UserServiceImpl(UserDao userDao) {
+        this.userDao = userDao;
+    }
 
     @Override
     public List<User> getAllUsers() {
@@ -42,4 +45,18 @@ public class UserServiceImpl implements UserService {
     public List<Long> getAllIds() {
         return userDao.getAllIds();
     }
+
+    @Override
+    public String getPath(long searchId) {
+        Long id = getAllIds().stream()
+                .filter(x -> x == searchId)
+                .findFirst()
+                .orElse(null);
+
+        if (id != null && (searchId > 0)) {
+            return "redirect:/users/" + searchId;
+        }
+        return "users";
+    }
+
 }
