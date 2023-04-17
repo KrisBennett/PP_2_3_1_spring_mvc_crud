@@ -6,79 +6,54 @@
 </head>
 <body>
 <div>
-    <h3>Add a user</h3>
-    <form action="/users" method="POST">
-        Name: <input
-            type="text"
-            name="name"><br/>
-        Surname: <input
-            type="text"
-            name="surname"><br/>
-        City: <input
-            type="text"
-            name="city"><br/>
-        Email: <input
-            type="text"
-            name="email"><br/>
-        <button style="width: 30%;" type="submit">Add User</button>
+    <form method="post" th:action="@{/}" th:object="${user}">
+        <div>
+            <label for="name">Name</label>
+            <input id="name" placeholder="Enter Name" required autocomplete="off"
+                   th:field="*{name}" type="text"/>
+        </div>
+        <div>
+            <label for="surname">Surname</label>
+            <input id="surname" placeholder="Enter Surname" required autocomplete="off"
+                   th:field="*{surname}" type="text"/>
+        </div>
+        <div>
+            <label for="city">City</label>
+            <input id="city" placeholder="Enter City" required autocomplete="off"
+                   th:field="*{city}" type="text"/>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input id="email" placeholder="Enter Email" required autocomplete="off"
+                   th:field="*{email}" type="text"/>
+        </div>
+        <div>
+            <input type="submit" value="Create User">
+            <input type="reset" value="Reset">
+        </div>
     </form>
     <br>
     <table th:border="1">
         <tr>
-            <th>id</th>
-            <th>name</th>
-            <th>surname</th>
-            <th>city</th>
-            <th>email</th>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>City</th>
+            <th>Email</th>
+            <th>Edit</th>
+        </tr>
+        <tr th:if="${#lists.isEmpty(listUsers)}">
+            <td colspan="6">No Records found. Add some user!</td>
         </tr>
         <tr th:each="user : ${listUsers}">
-            <td th:utext="${user.id}"></td>
-            <td th:utext="${user.name}"></td>
-            <td th:utext="${user.surname}"></td>
-            <td th:utext="${user.city}"></td>
-            <td th:utext="${user.email}"></td>
+            <td th:text="${user.id}"></td>
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.city}"></td>
+            <td th:text="${user.email}"></td>
+            <td><a th:href="@{/{id}(id=${user.id})}">&#9998</a></td>
         </tr>
     </table>
-    <div>
-        <h3>Update or delete user by Id</h3>
-        <div>
-            <form method="GET">
-                Search id
-                <input style="width: 7%" name="id" type="number"/>
-                <button style="width: 30%;">Search</button>
-            </form>
-        </div>
-        <br>
-        <form action="users"
-              th:action="@{/update/{id}(id=${user.id})}"
-              th:object="${user}"
-              method="POST">
-            <label for="name">Name</label>
-            <input type="text" th:field="*{name}" id="name" placeholder="Name">
-            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
-            <label for="email">Surname</label>
-            <input type="text" th:field="*{surname}" id="surname" placeholder="Surname">
-            <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></span>
-            <label for="name">City</label>
-            <input type="text" th:field="*{city}" id="city" placeholder="City">
-            <span th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></span>
-            <label for="email">Email</label>
-            <input type="text" th:field="*{email}" id="email" placeholder="Email">
-            <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-            <input type="submit" value="Update User">
-        </form>
-        <br>
-        <form action="#"
-              th:action="@{/delete/{id}(id=${user.id})}"
-              th:object="${user}"
-              method="GET">
-            <label for="id">Id</label>
-            <input type="text" th:field="*{id}" id="id" placeholder="Name">
-            <span th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></span>
-            <input type="submit" value="Delete User">
-        </form>
-    </div>
 </div>
-
 </body>
 </html>

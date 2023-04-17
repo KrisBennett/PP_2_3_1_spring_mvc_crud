@@ -16,8 +16,4 @@ public interface UserService {
 
     User getUserById(Long id);
 
-    List<Long> getAllIds();
-
-    String getPath(long searchId);
-
 }
